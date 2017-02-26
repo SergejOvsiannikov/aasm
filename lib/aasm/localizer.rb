@@ -2,7 +2,7 @@ module AASM
   class Localizer
     def human_event_name(klass, event)
       checklist = ancestors_list(klass).inject([]) do |list, ancestor|
-        list << :"#{i18n_scope(klass)}.events.#{i18n_klass(ancestor)}.#{event}"
+        list << :"aasm.events.#{i18n_klass(ancestor)}.#{event}"
         list
       end
       translate_queue(checklist) || I18n.translate(checklist.shift, :default => event.to_s.humanize)
@@ -21,7 +21,7 @@ module AASM
 
     def item_for(klass, state, ancestor, options={})
       separator = options[:old_style] ? '.' : '/'
-      :"#{i18n_scope(klass)}.attributes.#{i18n_klass(ancestor)}.#{klass.aasm(state.state_machine.name).attribute_name}#{separator}#{state}"
+      :"aasm.#{i18n_klass(ancestor)}.#{klass.aasm(state.state_machine.name).attribute_name}#{separator}#{state}"
     end
 
     def translate_queue(checklist)
